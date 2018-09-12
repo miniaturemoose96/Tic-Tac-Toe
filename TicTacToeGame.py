@@ -31,43 +31,49 @@ class Player:
         player_one = input("What is your name Player 1: ")
         player_two = input("What is your name Player 2: ")
         print(f"Welcome {player_one} and {player_two}")
-        os.system("cls")
         while player != self.symbol_X or player != self.symbol_O:
             player = input(f"{player_one} do you want to be X or O?:  ").upper()
             if player == self.symbol_X:
-                players = {player_one: self.symbol_X, player_two: self.symbol_O}
-                for x in players.keys():
-                    print(f">>>{x} is {players[x]}")
-                return players
+                players_xo = {player_one: self.symbol_X, player_two: self.symbol_O}
+                for x in players_xo.keys():
+                    print(f">>>{x} is {players_xo[x]}")
+                return players_xo
             elif player == self.symbol_O:
-                players = {player_one: self.symbol_O, player_two: self.symbol_X}
-                for x in players.keys():
-                    print(f">>>{x} is {players[x]}")
-                return players
+                players_xo = {player_one: self.symbol_O, player_two: self.symbol_X}
+                for x in players_xo.keys():
+                    print(f">>>{x} is {players_xo[x]}")
+                return players_xo
             else:
                 print("Not a valid choice, Please choose X or O.")
 
     @staticmethod
-    def who_goes_first(player_one, player_two):
+    def who_goes_first(player_xo):
         # This is the random operator that chooses the player that goes first using random
         print("Eeny, meeny, miny, moe")
         time.sleep(1)
         print("The person that will go first is...")
         time.sleep(1)
         if random.randint(1, 2) == 1:
-            print(f"{player_one} makes the first move.")
+            for player in player_xo.keys():
+                return player_xo[player]
         else:
-            print(f"{player_two} makes the first move.")
+            for player in player_xo.keys():
+                return player_xo[player]
 
 
 def main():
     board = Board()
-    os.system("cls")
-    print("----------Welcome to Tic-Tac-Toe----------")
-    board.display_board()
     player = Player()
-    player_one, player_two = player.players()
-    player.who_goes_first(player_one, player_two)
+    print("----------Welcome to Tic-Tac-Toe----------")
+    player_xo = player.players()
+    player_turn = player.who_goes_first(player_xo)
+    for player in player_xo:
+        print(f"{player} : {player_xo[player]} will go first")
+    game_running = True
+    while game_running:
+        if player_turn == "X":
+            board.display_board()
+            break
 
 
 if __name__ == "__main__":
